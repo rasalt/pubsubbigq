@@ -1,0 +1,22 @@
+# Imports the Google Cloud client library
+from google.cloud import pubsub_v1
+proj = "dataeng-219316"
+topic_name="streamingtopic"
+# Instantiates a client
+publisher = pubsub_v1.PublisherClient()
+
+# The resource path for the new topic contains the project ID
+# and the topic name.
+topic_path = publisher.topic_path(
+            proj, topic_name)
+
+# Create the topic.
+topic = publisher.create_topic(topic_path)
+
+print('Topic created: {}'.format(topic))
+
+#publish to the topic
+#by default the batch is 0.05 seconds
+publisher.publish(topic_name, b'My first message!', imp='yes', spam='no')
+publisher.delete_topic(topic_name)
+
